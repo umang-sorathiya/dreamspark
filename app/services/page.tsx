@@ -5,9 +5,9 @@ export default function Services() {
     <main>
       <Navbar />
 
-      <section className="bg-blue-900 text-white py-16 px-6 text-center">
+      <section className="bg-blue-600 text-white py-16 px-6 text-center">
         <h1 className="text-4xl font-bold mb-4">Our Services</h1>
-        <p className="text-lg text-gray-200 max-w-3xl mx-auto">
+        <p className="text-lg text-orange-100 max-w-3xl mx-auto">
           Comprehensive educational services designed for holistic student development.
         </p>
       </section>
@@ -25,19 +25,19 @@ export default function Services() {
             { icon: "🧘", title: "Yoga & Meditation", text: "4D development through yoga and meditation for physical, mental and spiritual growth." },
             { icon: "🏆", title: "Motivational Sessions", text: "Regular motivational speeches to inspire students to reach their full potential." },
           ].map((s, i) => (
-            <div key={i} className="bg-white rounded-2xl p-6 shadow hover:shadow-lg transition border border-gray-100">
+            <div key={i} className="bg-white rounded-2xl p-6 shadow hover:shadow-lg transition border border-orange-100">
               <div className="text-4xl mb-4">{s.icon}</div>
-              <h3 className="text-xl font-bold text-blue-900 mb-2">{s.title}</h3>
+              <h3 className="text-xl font-bold text-blue-600 mb-2">{s.title}</h3>
               <p className="text-gray-600 text-sm">{s.text}</p>
             </div>
           ))}
         </div>
       </section>
 
-      <section className="bg-blue-900 text-white py-12 px-6 text-center">
+      <section className="bg-blue-600 text-white py-12 px-6 text-center">
         <h2 className="text-3xl font-bold mb-4">Ready to Transform Your Future?</h2>
-        <p className="text-gray-200 mb-6">Join thousands of students who have already changed their lives with Dream Spark.</p>
-        <a href="/enquiry" className="bg-yellow-400 text-blue-900 font-bold px-8 py-3 rounded-lg hover:bg-yellow-300 transition">
+        <p className="text-orange-100 mb-6">Join thousands of students who have already changed their lives with Dream Spark.</p>
+        <a href="/enquiry" className="bg-white text-blue-600 font-bold px-8 py-3 rounded-lg hover:bg-gray-100">
           Enquire Now
         </a>
       </section>
