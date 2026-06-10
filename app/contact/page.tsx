@@ -1,13 +1,35 @@
+'use client'
+import { useState } from 'react'
 import Navbar from '@/components/Navbar'
+import { createClient } from '@supabase/supabase-js'
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+)
 
 export default function Contact() {
+  const [form, setForm] = useState({ full_name: '', email: '', mobile: '', message: '' })
+  const [loading, setLoading] = useState(false)
+  const [success, setSuccess] = useState(false)
+
+  const handleChange = (e: any) => setForm({ ...form, [e.target.name]: e.target.value })
+
+  const handleSubmit = async () => {
+    setLoading(true)
+    const { error } = await supabase.from('enquiries').insert([{ ...form, course: 'Contact Form' }])
+    setLoading(false)
+    if (error) { alert('Error! Please try again.') }
+    else { setSuccess(true); setForm({ full_name: '', email: '', mobile: '', message: '' }) }
+  }
+
   return (
     <main>
       <Navbar />
 
       <section className="bg-blue-600 text-white py-16 px-6 text-center">
         <h1 className="text-4xl font-bold mb-4">Contact Us</h1>
-        <p className="text-lg text-orange-100">We are here to help you. Reach out to us anytime!</p>
+        <p className="text-lg text-blue-100">We are here to help you. Reach out to us anytime!</p>
       </section>
 
       <section className="py-16 px-6">
@@ -35,22 +57,25 @@ export default function Contact() {
                 { name: "YouTube", url: "https://youtube.com/@dreamsparkyoutube-p6l" },
                 { name: "WhatsApp", url: "https://api.whatsapp.com/send?phone=918962973502" },
               ].map((s, i) => (
-                <a key={i} href={s.url} target="_blank" className="bg-blue-600 text-white px-3 py-1 rounded text-sm hover:bg-orange-500">
-                  {s.name}
-                </a>
+                <a key={i} href={s.url} target="_blank" className="bg-blue-600 text-white px-3 py-1 rounded text-sm hover:bg-blue-700">{s.name}</a>
               ))}
             </div>
           </div>
 
           <div className="bg-gray-50 rounded-2xl p-8 shadow">
             <h2 className="text-2xl font-bold text-gray-800 mb-6">Send a Message</h2>
+            {success && (
+              <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4 text-center">
+                ✅ Message sent successfully!
+              </div>
+            )}
             <div className="space-y-4">
-              <input type="text" placeholder="Your Full Name" className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:border-orange-500" />
-              <input type="email" placeholder="Your Email" className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:border-orange-500" />
-              <input type="tel" placeholder="Your Mobile Number" className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:border-orange-500" />
-              <textarea rows={4} placeholder="Your Message" className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:border-orange-500" />
-              <button className="w-full bg-blue-600 text-white py-3 rounded-lg font-bold hover:bg-orange-500 transition">
-                Send Message
+              <input name="full_name" value={form.full_name} onChange={handleChange} type="text" placeholder="Your Full Name" className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:border-blue-500" />
+              <input name="email" value={form.email} onChange={handleChange} type="email" placeholder="Your Email" className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:border-blue-500" />
+              <input name="mobile" value={form.mobile} onChange={handleChange} type="tel" placeholder="Your Mobile Number" className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:border-blue-500" />
+              <textarea name="message" value={form.message} onChange={handleChange} rows={4} placeholder="Your Message" className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:border-blue-500" />
+              <button onClick={handleSubmit} disabled={loading} className="w-full bg-blue-600 text-white py-3 rounded-lg font-bold hover:bg-blue-700 transition disabled:opacity-50">
+                {loading ? 'Sending...' : 'Send Message'}
               </button>
             </div>
           </div>
