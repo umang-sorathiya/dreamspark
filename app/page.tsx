@@ -1,26 +1,66 @@
+'use client'
+import { useState, useEffect } from 'react'
 import Navbar from '@/components/Navbar'
 
 export default function Home() {
+  const [current, setCurrent] = useState(0)
+  const total = 3
+
+  useEffect(() => {
+    const timer = setInterval(() => setCurrent(p => (p + 1) % total), 4000)
+    return () => clearInterval(timer)
+  }, [])
+
+  const titles = [
+    "We Transform Youth Into Global Human Resources",
+    "Quality Education for a Better Future", 
+    "Empowering India's Youth to Excel Globally"
+  ]
+  const subtitles = [
+    "India's best coaching institute for IIT/JEE, NEET, UPSC, SSC and Government exams.",
+    "Online, Offline & Residential courses available across India.",
+    "Comprehensive programs for holistic development and academic excellence."
+  ]
+  const bgs = ["/banner1.jpg", "/banner2.jpg", "/banner3.jpg"]
+
   return (
-    <main>
+    <main className="bg-white">
       <Navbar />
 
-      {/* Hero Banner */}
-      <section style={{backgroundColor: '#0d6efd'}} className="text-white py-20 px-6 text-center">
-        <p className="text-lg mb-2 text-blue-100">We are educating and empowering India's youth to excel globally.</p>
-        <h1 className="text-4xl md:text-5xl font-bold mb-4">
-          India's best School of Education <br/>for quality education.
-        </h1>
-        <p className="text-xl text-yellow-300 mb-8 font-semibold">"We transform youth into human resource globally"</p>
-        <div className="flex gap-4 justify-center flex-wrap">
-          <a href="/about" className="bg-white font-bold px-8 py-3 rounded-lg hover:bg-gray-100" style={{color: '#0d6efd'}}>About Us</a>
-          <a href="/contact" className="border-2 border-white text-white px-8 py-3 rounded-lg hover:bg-white" style={{}}>Contact Us</a>
+      {/* Hero Carousel */}
+      <div className="relative h-[500px] overflow-hidden">
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `url('${bgs[current]}')`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            transition: 'background-image 0.5s ease'
+          }}
+        >
+          <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center text-center px-6">
+            <div>
+              <h1 className="text-3xl md:text-5xl font-bold text-white mb-4">{titles[current]}</h1>
+              <p className="text-lg text-gray-200 mb-8 max-w-3xl mx-auto">{subtitles[current]}</p>
+              <div className="flex gap-4 justify-center flex-wrap">
+                <a href="/courses" className="bg-blue-600 text-white font-bold px-8 py-3 rounded-lg hover:bg-blue-700">Explore Courses</a>
+                <a href="/enquiry" className="bg-white text-blue-600 font-bold px-8 py-3 rounded-lg hover:bg-gray-100">Enquiry Now</a>
+              </div>
+            </div>
+          </div>
         </div>
-      </section>
+        <button onClick={() => setCurrent(p => (p - 1 + total) % total)} className="absolute left-4 top-1/2 -translate-y-1/2 bg-white bg-opacity-70 text-blue-600 w-10 h-10 rounded-full font-bold text-xl z-10">‹</button>
+        <button onClick={() => setCurrent(p => (p + 1) % total)} className="absolute right-4 top-1/2 -translate-y-1/2 bg-white bg-opacity-70 text-blue-600 w-10 h-10 rounded-full font-bold text-xl z-10">›</button>
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+          {[0,1,2].map(i => (
+            <button key={i} onClick={() => setCurrent(i)} className={`w-3 h-3 rounded-full ${i === current ? 'bg-white' : 'bg-white bg-opacity-50'}`} />
+          ))}
+        </div>
+      </div>
 
       {/* Stats */}
-      <section className="bg-gray-100 py-10 px-6">
-        <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+      <section className="bg-blue-600 py-10 px-6">
+        <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6 text-center text-white">
           {[
             { num: "1000+", label: "Daily Live Classes" },
             { num: "1000+", label: "Test & Sample Papers" },
@@ -28,8 +68,8 @@ export default function Home() {
             { num: "10+", label: "Offline Centers" },
           ].map((s, i) => (
             <div key={i}>
-              <h2 className="text-3xl font-bold" style={{color: '#0d6efd'}}>{s.num}</h2>
-              <p className="text-gray-600">{s.label}</p>
+              <h2 className="text-3xl font-bold">{s.num}</h2>
+              <p className="text-blue-100">{s.label}</p>
             </div>
           ))}
         </div>
@@ -40,15 +80,15 @@ export default function Home() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
           <div>
             <h2 className="text-3xl font-bold text-gray-800 mb-4">India's best School of Education for quality education.</h2>
-            <p className="font-semibold mb-4" style={{color: '#0d6efd'}}>"We transform youth into human resource globally"</p>
+            <p className="font-semibold mb-4 text-blue-600">"We transform youth into human resource globally"</p>
             <p className="text-gray-600 mb-4">Dream Spark Coaching Institute is at the forefront of transforming education in Chhattisgarh. We offer inclusive courses available in online, offline, and residential formats.</p>
             <p className="text-gray-600 mb-6">We provide live offline coaching services, recorded lectures, and study materials. Conducting regular assessments to monitor the progress of students.</p>
             <div className="flex gap-4">
-              <a href="/about" className="text-white px-6 py-2 rounded-lg" style={{backgroundColor: '#0d6efd'}}>About Us</a>
-              <a href="/contact" className="border-2 px-6 py-2 rounded-lg" style={{borderColor: '#0d6efd', color: '#0d6efd'}}>Contact Us</a>
+              <a href="/about" className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">About Us</a>
+              <a href="/contact" className="border-2 border-blue-600 text-blue-600 px-6 py-2 rounded-lg hover:bg-blue-50">Contact Us</a>
             </div>
           </div>
-          <div className="rounded-2xl overflow-hidden">
+          <div className="rounded-2xl overflow-hidden shadow-lg">
             <img src="https://www.dreamspark.co.in/images/cour.png" alt="Courses" className="w-full rounded-xl" />
           </div>
         </div>
@@ -58,7 +98,7 @@ export default function Home() {
       <section className="py-16 px-6 bg-gray-50">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl font-bold text-center text-gray-800 mb-2">Explore Our Courses</h2>
-          <p className="text-center text-gray-600 mb-10">From IIT/JEE, NEET to UPSC — we have it all!</p>
+          <p className="text-center text-gray-500 mb-10">From IIT/JEE, NEET to UPSC — we have it all!</p>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
               { name: "Capacity Building", level: "Level 1", price: "₹1,000" },
@@ -66,11 +106,11 @@ export default function Home() {
               { name: "Transformation Course", level: "Level 3", price: "₹2,40,000" },
               { name: "Boot Camp Program", level: "Level 4", price: "₹5,000" },
             ].map((course, i) => (
-              <div key={i} className="border-2 rounded-xl p-6 text-center shadow hover:shadow-lg transition bg-white" style={{borderColor: '#0d6efd22'}}>
-                <p className="text-sm font-semibold mb-1" style={{color: '#0d6efd'}}>{course.level}</p>
-                <h3 className="text-lg font-bold text-gray-800 mb-3">{course.name}</h3>
-                <p className="text-2xl font-bold mb-4" style={{color: '#0d6efd'}}>{course.price}</p>
-                <a href="/enquiry" className="text-white px-4 py-2 rounded-lg text-sm" style={{backgroundColor: '#0d6efd'}}>Enquire Now</a>
+              <div key={i} className="border border-gray-200 rounded-xl p-6 text-center shadow-sm hover:shadow-md transition bg-white">
+                <span className="text-xs font-semibold text-blue-600 bg-blue-50 px-3 py-1 rounded-full">{course.level}</span>
+                <h3 className="text-lg font-bold text-gray-800 my-3">{course.name}</h3>
+                <p className="text-2xl font-bold text-blue-600 mb-4">{course.price}</p>
+                <a href="/enquiry" className="block bg-blue-600 text-white py-2 rounded-lg text-sm hover:bg-blue-700">Enquire Now</a>
               </div>
             ))}
           </div>
@@ -83,18 +123,18 @@ export default function Home() {
           <h2 className="text-3xl font-bold text-center text-gray-800 mb-10">Why is Dream Spark the Right Choice?</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {[
-              { num: "1", title: "Unique Syllabus", text: "Distinctive syllabus with residential courses emphasizing nutritional value, discipline, and human values." },
-              { num: "2", title: "Holistic Development", text: "Mental health and emotional well-being through mandatory classes and memory development." },
-              { num: "3", title: "Progressive Learning", text: "Level system (Level-1 to Level-4) for gradual and thorough mastery of concepts." },
-              { num: "4", title: "Innovative Pedagogy", text: "Incorporating pedagogy and science of learning with child and human psychology." },
-              { num: "5", title: "4D Development", text: "Yoga and meditation for 4D physical, mental, emotional and spiritual development." },
-              { num: "6", title: "Continuous Assessment", text: "Routine tests and assessments to track student progress and offer feedback." },
+              { num: "1", title: "Unique Syllabus", text: "Residential courses emphasizing nutritional value, discipline, and human values." },
+              { num: "2", title: "Holistic Development", text: "Mental health and emotional well-being through mandatory classes." },
+              { num: "3", title: "Progressive Learning", text: "Level system (Level-1 to Level-4) for gradual mastery of concepts." },
+              { num: "4", title: "Innovative Pedagogy", text: "Science of learning with child and human psychology." },
+              { num: "5", title: "4D Development", text: "Yoga and meditation for physical, mental, emotional and spiritual development." },
+              { num: "6", title: "Continuous Assessment", text: "Routine tests and assessments to track student progress." },
             ].map((item, i) => (
-              <div key={i} className="flex gap-4 p-4 border rounded-xl hover:bg-blue-50" style={{borderColor: '#0d6efd22'}}>
-                <div className="text-white w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0" style={{backgroundColor: '#0d6efd'}}>{item.num}</div>
+              <div key={i} className="flex gap-4 p-4 border border-gray-100 rounded-xl hover:bg-blue-50 transition">
+                <div className="bg-blue-600 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0">{item.num}</div>
                 <div>
                   <h3 className="font-bold text-gray-800 mb-1">{item.title}</h3>
-                  <p className="text-gray-600 text-sm">{item.text}</p>
+                  <p className="text-gray-500 text-sm">{item.text}</p>
                 </div>
               </div>
             ))}
@@ -103,18 +143,18 @@ export default function Home() {
       </section>
 
       {/* Testimonials */}
-      <section className="py-16 px-6 text-white" style={{backgroundColor: '#0d6efd'}}>
+      <section className="py-16 px-6 bg-gray-50">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-10">Why Trust Us?</h2>
+          <h2 className="text-3xl font-bold text-center text-gray-800 mb-10">Why Trust Us?</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
               { name: "Shikha Verma", text: "The coaching institute combines rigorous training with innovative teaching methods, offering a supportive environment." },
               { name: "Saurabh Sharma", text: "The structured curriculum and dedicated mentors significantly boost student performance and confidence." },
               { name: "Nehal Sinha", text: "Exceptional instructors and a tailored curriculum. Students receive comprehensive support and practical resources." },
             ].map((t, i) => (
-              <div key={i} className="rounded-xl p-6" style={{backgroundColor: '#1a7aff'}}>
-                <p className="text-blue-100 mb-4 italic">"{t.text}"</p>
-                <p className="font-bold text-yellow-300">— {t.name}</p>
+              <div key={i} className="bg-white rounded-xl p-6 shadow border border-gray-100">
+                <p className="text-gray-600 mb-4 italic">"{t.text}"</p>
+                <p className="font-bold text-blue-600">— {t.name}</p>
               </div>
             ))}
           </div>
@@ -125,25 +165,25 @@ export default function Home() {
       <footer className="bg-gray-900 text-white py-12 px-6">
         <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
-            <h3 className="text-xl font-bold mb-3" style={{color: '#0d6efd'}}>🎓 Dream Spark</h3>
+            <h3 className="text-xl font-bold text-blue-400 mb-3">🎓 Dream Spark</h3>
             <p className="text-gray-400 text-sm">"We transform youth into human resource globally"</p>
             <p className="text-gray-400 text-sm mt-3">📞 +91 07884068840</p>
             <p className="text-gray-400 text-sm">✉️ infodreamspark02@gmail.com</p>
           </div>
           <div>
-            <h4 className="font-bold mb-3" style={{color: '#0d6efd'}}>Quick Links</h4>
+            <h4 className="font-bold mb-3 text-blue-400">Quick Links</h4>
             {["Home","About","Services","Courses","Contact","Enquiry"].map((l, i) => (
               <a key={i} href={`/${l.toLowerCase()}`} className="block text-gray-400 hover:text-white text-sm mb-1">{l}</a>
             ))}
           </div>
           <div>
-            <h4 className="font-bold mb-3" style={{color: '#0d6efd'}}>Our Courses</h4>
+            <h4 className="font-bold mb-3 text-blue-400">Our Courses</h4>
             {["Capacity Building","Strength Development","Transformation Course","Boot Camp Program"].map((c, i) => (
               <p key={i} className="text-gray-400 text-sm mb-1">{c}</p>
             ))}
           </div>
           <div>
-            <h4 className="font-bold mb-3" style={{color: '#0d6efd'}}>Office Address</h4>
+            <h4 className="font-bold mb-3 text-blue-400">Office Address</h4>
             <p className="text-gray-400 text-sm">G-2 Nehru Nagar (East), Street-7A</p>
             <p className="text-gray-400 text-sm">Distt. Durg (C.G.) - 490020</p>
             <div className="flex gap-3 mt-4">
@@ -158,7 +198,6 @@ export default function Home() {
           Copyright © 2026, DreamSpark All Rights Reserved.
         </div>
       </footer>
-
     </main>
   )
 }
