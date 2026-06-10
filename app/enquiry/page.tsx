@@ -21,6 +21,26 @@ export default function Enquiry() {
   }
 
   const handleSubmit = async () => {
+    const handleSubmit = async () => {
+
+  console.log("FORM DATA:", form)
+
+  setLoading(true)
+
+  const { error } = await supabase
+    .from('enquiries')
+    .insert([form])
+
+  setLoading(false)
+
+  if (error) {
+    console.log("ERROR:", error)
+    alert('Error! Please try again.')
+  } else {
+    console.log("SUCCESS")
+    setSuccess(true)
+  }
+}
     setLoading(true)
     const { error } = await supabase.from('enquiries').insert([form])
     setLoading(false)
